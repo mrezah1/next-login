@@ -19,7 +19,9 @@ export default function Home() {
           </>
         ) : (
           <Button>
-            <Link href="/login">Login</Link>
+            <Link className="block" href="/login">
+              Login
+            </Link>
           </Button>
         )}
       </main>
