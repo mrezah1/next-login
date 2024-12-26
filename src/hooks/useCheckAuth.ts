@@ -8,10 +8,10 @@ const useCheckAuth = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const data = localStorage.getItem("auth-storage");
+    const data = JSON.parse(localStorage.getItem("auth-storage") || "{}");
     const checkAuth = async () => {
-      if (!data) {
-        // clearAuth();
+      if (!data?.state?.token) {
+        clearAuth();
         setLoading(false);
         return;
       }

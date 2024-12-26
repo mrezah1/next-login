@@ -19,7 +19,7 @@ const Navigation = () => {
         </li>
         <li>
           {isAuthenticated ? (
-            <Link className="text-slate-500" href="/user">
+            <Link className="text-slate-500" href="/user/dashboard">
               {user.username}
             </Link>
           ) : (
