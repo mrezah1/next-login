@@ -1,27 +1,27 @@
 import { useEffect, useState } from "react";
-
-import { checkUser } from "@/services/auth";
 import useAuthStore from "@/store/AuthStore";
+import { checkUserAction, logoutAction } from "@/services/auth/actions";
 
 const useCheckAuth = () => {
-  const { setUser, setToken, login, clearAuth } = useAuthStore();
+  const { login, clearAuth } = useAuthStore();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("auth-storage") || "{}");
     const checkAuth = async () => {
-      if (!data?.state?.token) {
+      if (!data?.state) {
+        logoutAction();
         clearAuth();
         setLoading(false);
         return;
       }
 
-      checkUser()
+      checkUserAction()
         .then(({ data }) => {
-          setUser(data);
+          login(data);
         })
         .catch((error) => {
-          console.error("Authentication failed:", error);
+          // console.error("Authentication failed:", error);
           clearAuth();
         })
         .finally(() => {

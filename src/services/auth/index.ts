@@ -1,11 +1,11 @@
 import axios from "@/services/axiosInstance";
 
-interface loginParams {
+export interface loginParams {
   email: string;
   password: string;
 }
 
-interface registerParams {
+export interface registerParams {
   username: string;
   first_name: string;
   last_name: string;
