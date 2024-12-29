@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
 
 import { RegisterAction } from "@/services/auth/actions";
@@ -10,6 +10,9 @@ import useAuthStore from "@/store/AuthStore";
 
 const RegisterForm: React.FC = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectPath = searchParams.get("redirect") || "/";
+
   const { login: loginStore } = useAuthStore();
   const [loading, setLoading] = useState<boolean>(false);
   const [credentials, setCredentials] = useState({
@@ -35,7 +38,7 @@ const RegisterForm: React.FC = () => {
       .then((res) => {
         toast.success(res.message);
         loginStore(res.user);
-        router.replace("/");
+        router.replace(redirectPath);
       })
       .catch((err) => toast.error("An error occurred"))
       .finally(() => setLoading(false));

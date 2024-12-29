@@ -9,11 +9,10 @@ import { Input, Button, Spinner } from "@/components/global";
 import useAuthStore from "@/store/AuthStore";
 
 const LoginPage: React.FC = () => {
-  const searchParams = useSearchParams();
-
-  const redirectTo = searchParams.get("redirectTo") || "/";
-
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectPath = searchParams.get("redirect") || "/";
+
   const { login: loginStore } = useAuthStore();
   const [loading, setLoading] = useState<boolean>(false);
   const [credentials, setCredentials] = useState({
@@ -36,7 +35,7 @@ const LoginPage: React.FC = () => {
       .then((res) => {
         toast.success(res.message);
         loginStore(res.user);
-        router.replace("/");
+        router.replace(redirectPath);
       })
       .catch((err) => toast.error(err.message))
       .finally(() => setLoading(false));
