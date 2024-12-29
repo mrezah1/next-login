@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
-import { Register } from "@/services/auth";
+import { RegisterAction } from "@/services/auth/actions";
 import { Input, Button, Spinner } from "@/components/global";
 import useAuthStore from "@/store/AuthStore";
 
@@ -31,13 +31,13 @@ const RegisterForm: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true);
-    Register(credentials)
+    RegisterAction(credentials)
       .then((res) => {
         toast.success(res.message);
-        loginStore(res.user, res.access_token);
+        loginStore(res.user);
         router.replace("/");
       })
-      .catch((err) => toast.error(err.message))
+      .catch((err) => toast.error("An error occurred"))
       .finally(() => setLoading(false));
   };
 

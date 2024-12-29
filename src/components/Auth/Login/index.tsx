@@ -1,14 +1,18 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
 
-import { Login } from "@/services/auth";
+import { LoginAction } from "@/services/auth/actions";
 import { Input, Button, Spinner } from "@/components/global";
 import useAuthStore from "@/store/AuthStore";
 
 const LoginPage: React.FC = () => {
+  const searchParams = useSearchParams();
+
+  const redirectTo = searchParams.get("redirectTo") || "/";
+
   const router = useRouter();
   const { login: loginStore } = useAuthStore();
   const [loading, setLoading] = useState<boolean>(false);
@@ -28,10 +32,10 @@ const LoginPage: React.FC = () => {
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     setLoading(true);
-    Login(credentials)
+    LoginAction(credentials)
       .then((res) => {
         toast.success(res.message);
-        loginStore(res.user, res.access_token);
+        loginStore(res.user);
         router.replace("/");
       })
       .catch((err) => toast.error(err.message))
