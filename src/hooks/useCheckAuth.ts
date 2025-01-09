@@ -9,7 +9,7 @@ const useCheckAuth = () => {
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("auth-storage") || "{}");
     const checkAuth = async () => {
-      if (!data?.state) {
+      if (!data?.state?.isAuthenticated) {
         logoutAction();
         clearAuth();
         setLoading(false);
